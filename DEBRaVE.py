@@ -78,6 +78,26 @@ class FStarSpectra(Spectra):
         cross_corr = (N*sig_g*sig_t)**-1 * np.convolve(self.spectra_data, template.spectra_data)
         return cross_corr
 
+
+    def mapTODCOR(self, template1, template2, light_ratio=1, savename=None):
+        """
+        Make a heatmap of the TODCOR cross correlation function.
+        """
+
+        # Obtain TODCOR index array
+        ind_arr = self.TODCOR(template1, template2, light_ratio)
+
+        # Plot the heatmap
+        plt.imshow(ind_arr, cmap='seismic', interpolation='nearest')
+
+        # Save the heatmap if a savename is provided
+        if (savename is not None):
+            plt.savefig(savename)
+
+        plt.show()
+        return ind_arr
+    
+
     def TODCOR(self, template1, template2, light_ratio=1):
         """
         Performs the TODCOR algorithm on the spectra.
@@ -121,16 +141,6 @@ def readSpectraFITS(filename):
     print(f"Header fields: {header.keys()}")
 
     return header, wavelengths, fluxes
-
-
-def TODCOR_Mapping(ind_arr):
-
-    
-
-
-
-
-
 
 
 #---------------------------------main----------------------------------------#
