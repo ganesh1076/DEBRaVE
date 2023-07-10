@@ -5,7 +5,7 @@ Contact:    pquigley@uwo.ca
 Created:    2023-07-10
 Updated:    2023-07-10
     
-Usage: python DEBRaVE.py [-d][-p][-r][-s]
+Usage: python DEBRaVE.py
 """
 
 # Module imports
@@ -22,20 +22,21 @@ from astropy.io import fits
 
 #--------------------------------classes--------------------------------------#
 
-
-
-
-
-
 class Spectra:
     """
     This is the superclass for all spectra objects.
     """
 
-    def __init__(self):
+    def __init__(self, time, radec, wavelength, fluxes):
 
+        # Error collection
         self.errors = []
-        pass
+
+        # Parse init arguments
+        self.time = time  # timestamp of the spectra as a string
+        self.radec = radec  # this should be a tuple of (ra, dec)
+        self.spectra_data = np.array([wavelength, fluxes]).transpose()
+        self.rms = np.sqrt(np.mean(fluxes**2))  # root mean square of the fluxes
 
     def addError(self, error_msg):
         """
@@ -51,10 +52,53 @@ class FStarSpectra(Spectra):
     This is the class for F-star spectra.
     """
 
-    def __init__(self):
+    def __init__(self, time, spectra_data):
+        super().__init__(time, spectra_data)
+
+    
+    def crossCorrelate(self, template):
+        """
+        Cross-correlates the spectra with a template spectra.
+        """
+
+        if len(self.spectra_data) != len(template.spectra_data):
+            self.addError("Real and refence spectra are of different lengths!")
+
+        # Define the cross correlation variables
+        N = len(self.spectra_data)
+        sig_g = self.rms
+        sig_t = template.rms
         pass
+
 
 #-------------------------------functions-------------------------------------#
 
+def readSpectraFITS(filename):
+    """
+    Reads the header and contents of a spectra file. Returns the header
+    as a dictionary and the body as a numpy object.
+    """
+
+    with fits.open(filename) as hdul:
+        # Read the header
+        header = hdul[0].header
+        time = header['DATE-OBS']
+        ra   = header['RA']
+        dec  = header['DEC']
+
+        # Read the body
+        body = hdul[1].data[0]
+        wavelengths = body[0]
+        fluxes = body[1]
+
+    print(f"Header fields: {header.keys()}")
+
+    return header, wavelengths, fluxes
+
 
 #---------------------------------main----------------------------------------#
+
+
+def main():
+
+    pass
