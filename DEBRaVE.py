@@ -68,7 +68,9 @@ class FStarSpectra(Spectra):
         N = len(self.spectra_data)
         sig_g = self.rms
         sig_t = template.rms
-        pass
+
+        # Calculate the cross correlation
+        cross_corr = (N*sig_g*sig_t)**-1 * np.convolve(self.spectra_data, template.spectra_data)
 
 
 #-------------------------------functions-------------------------------------#
