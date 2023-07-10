@@ -59,10 +59,15 @@ class FStarSpectra(Spectra):
     def crossCorrelate(self, template):
         """
         Cross-correlates the spectra with a template spectra.
+        *Note: the wavelengths in the two spectra must be the same.
         """
 
         if len(self.spectra_data) != len(template.spectra_data):
-            self.addError("Real and refence spectra are of different lengths!")
+            self.addError("Primary and secondary spectra are of different lengths!")
+            return
+        elif self.spectra_data[:,0] != template.spectra_data[:,0]:
+            self.addError("Primary and secondary spectra have different wavelengths!")
+            return
 
         # Define the cross correlation variables
         N = len(self.spectra_data)
@@ -71,6 +76,26 @@ class FStarSpectra(Spectra):
 
         # Calculate the cross correlation
         cross_corr = (N*sig_g*sig_t)**-1 * np.convolve(self.spectra_data, template.spectra_data)
+        return cross_corr
+
+    def TODCOR(self, template1, template2, light_ratio=1):
+        """
+        Performs the TODCOR algorithm on the spectra.
+        """
+
+        # Obtain individual cross correlation functions
+        cross_corr1 = self.crossCorrelate(template1)
+        cross_corr2 = self.crossCorrelate(template2)
+        cross_corr12 = template1.crossCorrelate(template2)
+
+        # Calculate the TODCOR cross correlation function
+        cross_corr = np.empty((len(template1.spectra_data),len(template2.spectra_data)))
+        for i in range(len(template1.spectra_data)):
+            for j in range(len(template2.spectra_data)):
+                cross_corr[i,j] = (cross_corr1[i] + light_ratio*cross_corr2[j])/np.sqrt(1 + 2*light_ratio*cross_corr12[i,j] + light_ratio**2)
+
+
+        return cross_corr
 
 
 #-------------------------------functions-------------------------------------#
@@ -96,6 +121,16 @@ def readSpectraFITS(filename):
     print(f"Header fields: {header.keys()}")
 
     return header, wavelengths, fluxes
+
+
+def TODCOR_Mapping(ind_arr):
+
+    
+
+
+
+
+
 
 
 #---------------------------------main----------------------------------------#
