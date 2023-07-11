@@ -22,6 +22,8 @@ from astropy.io import fits
 
 #-------------------------------global vars-----------------------------------#
 
+# Verbose mode placeholder
+verboseprint = lambda *a, **k: None
 
 #--------------------------------classes--------------------------------------#
 
@@ -161,6 +163,7 @@ def readSpectraFITS(filename):
     Reads the header and contents of a spectra file. Returns the header
     as a dictionary and the body as a numpy object.
     """
+    verboseprint(f"Unpacking {filename}...")
 
     with fits.open(filename) as hdul:
         # Read the header
@@ -174,7 +177,7 @@ def readSpectraFITS(filename):
         wavelengths = body[0]
         fluxes = body[1]
 
-    print(f"Header fields: {list(header.keys())}")
+    verboseprint(f"Header fields: {list(header.keys())}")
 
     return time, (ra, dec), wavelengths, fluxes
 
@@ -182,12 +185,13 @@ def readSpectraFITS(filename):
 #---------------------------------main----------------------------------------#
 
 
-def main(fits, template, light_ratio=1, parallel=False):
+def main(fits_files, templates, light_ratio=1, parallel=False):
 
     # Initialize the template spectra objects
     # TODO: make this more specific to the template formats
-    template1 = Spectra(*readSpectraFITS(template[0]))
-    template2 = Spectra(*readSpectraFITS(template[1]))
+    verboseprint(f"{templates[0]}\n{templates[1]}")
+    template1 = FStarSpectra(*readSpectraFITS(templates[0]))
+    template2 = FStarSpectra(*readSpectraFITS(templates[1]))
 
     # Initialize the spectra objects and evaluate the cross correlation
     # for each. Then, plot the cross correlation.
@@ -203,7 +207,7 @@ def main(fits, template, light_ratio=1, parallel=False):
 
         # Map the arguments to the multiprocessing pool
         try:
-            TODCOR_ind_maps = pool.starmap(processFITS, fits)
+            TODCOR_ind_maps = pool.starmap(processFITS, fits_files)
         except Exception as err:
             print(f"Error: {err}")
 
@@ -214,7 +218,7 @@ def main(fits, template, light_ratio=1, parallel=False):
 
     else:
         # Iterate through the spectrum files and return the TODCOR cross correlation
-        for spectrum_file in fits:
+        for spectrum_file in fits_files:
             star_spectrum = FStarSpectra(*readSpectraFITS(spectrum_file))
             star_spectrum.mapTODCOR(template1, template2, light_ratio)
 
@@ -228,20 +232,26 @@ if __name__ == "__main__":
                                          formatter_class=argparse.RawTextHelpFormatter)
 
     # Add arguments
-    arg_parser.add_argument("-f", "--fits", type=str, nargs='+', required=True,
+    arg_parser.add_argument("-s", "--spectra", type=str, nargs='+', required=True,
                             help="F-Class star spectra to be read from FITS file(s).")
-    arg_parser.add_argument("-t", "--template", type=str, nargs=2, required=True,
+    arg_parser.add_argument("-t", "--templates", type=str, nargs=2, required=True,
                             help="Template FITS files to be read. Two required.")
     arg_parser.add_argument("-l", "--light_ratio", type=float, default=1,
                             help="Scaling light ratio of the unshifted to shifted templates.")
     arg_parser.add_argument("-p", "--parallel", action="store_true",
                             help="Run the program in parallel mode.")
+    arg_parser.add_argument("-v", "--verbose", action="store_true",
+                            help="Run the program in verbose mode.")
 
     # Parse arguments
     args = arg_parser.parse_args() # cml argument dictionary
-    fits = args.fits
-    template = args.template
+    fits_files = args.spectra
+    templates = args.templates
     light_ratio = args.light_ratio
     parallel = args.parallel
 
-    main(fits, template, light_ratio, parallel)
+    # Check for verbose mode
+    if (args.verbose):
+        verboseprint = print
+
+    main(fits_files, templates, light_ratio, parallel)
