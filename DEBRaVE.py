@@ -12,10 +12,12 @@ Usage: python DEBRaVE.py
 import os, sys
 import astropy
 import scipy
+import multiprocessing
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from astropy.io import fits
+
 
 #-------------------------------global vars-----------------------------------#
 
@@ -89,6 +91,10 @@ class FStarSpectra(Spectra):
 
         # Plot the heatmap
         plt.pcolormesh([template1.spectra_data[:,0], template2.spectra_data[:,0]], ind_arr, cmap='seismic')
+        plt.colorbar()
+        plt.title("TODCOR Cross-Correlation Function")
+        plt.xlabel("Unshifted Wavelength (nm)")
+        plt.ylabel("Shifted Wavelength (nm)")
 
         # Save the heatmap if a savename is provided
         if (savename is not None):
