@@ -88,7 +88,7 @@ class FStarSpectra(Spectra):
         ind_arr = self.TODCOR(template1, template2, light_ratio)
 
         # Plot the heatmap
-        plt.imshow(ind_arr, cmap='seismic', interpolation='nearest')
+        plt.pcolormesh([template1.spectra_data[:,0], template2.spectra_data[:,0]], ind_arr, cmap='seismic')
 
         # Save the heatmap if a savename is provided
         if (savename is not None):
