@@ -138,7 +138,7 @@ def readSpectraFITS(filename):
         wavelengths = body[0]
         fluxes = body[1]
 
-    print(f"Header fields: {header.keys()}")
+    print(f"Header fields: {list(header.keys())}")
 
     return header, wavelengths, fluxes
 
