@@ -12,6 +12,7 @@ Usage: python DEBRaVE.py
 import os, sys
 import astropy
 import scipy
+import argparse
 import multiprocessing
 import numpy as np
 import pandas as pd
@@ -40,6 +41,7 @@ class Spectra:
         self.spectra_data = np.array([wavelength, fluxes]).transpose()
         self.rms = np.sqrt(np.mean(fluxes**2))  # root mean square of the fluxes
 
+
     def addError(self, error_msg):
         """
         Error handling function for spectra objects.
@@ -47,6 +49,34 @@ class Spectra:
 
         self.errors.append(error_msg)
         print(error_msg)
+
+
+    def plotSpectra(self, savename=None):
+        """
+        Plots the spectra. Saves the plot if a savename is provided.
+        Returns the matplotlib figure object.
+        """
+
+        # Plot the spectra
+        plt.plot(self.spectra_data[:,0], self.spectra_data[:,1])
+        plt.xscale('log')
+        plt.gca().invert_xaxis()
+
+        # Adjust the plot parameters
+        plt.title(f"Spectra for {self.time}\nRA: {self.radec[0]:.1f}, DEC: {self.radec[1]:.1f}")
+        plt.xlabel("Wavelength (nm)")
+        plt.ylabel("Flux (arbitrary units)")
+        plt.grid(True)
+
+        # Save the plot if a savename is provided
+        if (savename is not None):
+            plt.savefig(savename)
+
+        # Return the figure object
+        return plt.gcf()
+
+
+
 
 
 class FStarSpectra(Spectra):
