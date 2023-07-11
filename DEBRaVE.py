@@ -97,7 +97,7 @@ class FStarSpectra(Spectra):
         if len(self.spectra_data) != len(template.spectra_data):
             self.addError("Primary and secondary spectra are of different lengths!")
             return
-        elif self.spectra_data[:,0] != template.spectra_data[:,0]:
+        elif (self.spectra_data[:,0] != template.spectra_data[:,0]).all():
             self.addError("Primary and secondary spectra have different wavelengths!")
             return
 
