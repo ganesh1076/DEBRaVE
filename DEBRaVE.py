@@ -182,6 +182,30 @@ def readSpectraFITS(filename):
 #---------------------------------main----------------------------------------#
 
 
-def main():
+def main(fits, template, light_ratio):
+
+
 
     pass
+
+if __name__ == "__main__":
+
+    # Generate argument parser
+    arg_parser = argparse.ArgumentParser(description="DEBRaVE: Double Eclipsing Binary Research and Visualization Engine",
+                                         formatter_class=argparse.RawTextHelpFormatter)
+
+    # Add arguments
+    arg_parser.add_argument("-f", "--fits", type=str, nargs='+', required=True,
+                            help="Spectra FITS file(s) to be read.")
+    arg_parser.add_argument("-t", "--template", type=str, nargs=2, required=True,
+                            help="Template FITS files to be read. Two required.")
+    arg_parser.add_argument("-l", "--light_ratio", type=float, default=1,
+                            help="Scaling light ratio of the unshifted to shifted templates.")    
+
+    # Parse arguments
+    args = arg_parser.parse_args() # cml argument dictionary
+    fits = args.fits
+    template = args.template
+    light_ratio = args.light_ratio
+
+    main(fits, template, light_ratio)
