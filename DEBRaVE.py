@@ -84,8 +84,8 @@ class FStarSpectra(Spectra):
     This is the class for F-star spectra.
     """
 
-    def __init__(self, time, spectra_data):
-        super().__init__(time, spectra_data)
+    def __init__(self, time, radec, wavelength, fluxes):
+        super().__init__(time, radec, wavelength, fluxes)
 
     
     def crossCorrelate(self, template):
@@ -111,7 +111,7 @@ class FStarSpectra(Spectra):
         return cross_corr
 
 
-    def mapTODCOR(self, template1, template2, light_ratio=1, savename=None):
+    def mapTODCOR(self, template1, template2, light_ratio=1, savename=None, plot_block=True):
         """
         Make a heatmap of the TODCOR cross correlation function.
         """
@@ -130,7 +130,7 @@ class FStarSpectra(Spectra):
         if (savename is not None):
             plt.savefig(savename)
 
-        plt.show()
+        plt.show(block=plot_block)
         return ind_arr
     
 
@@ -176,17 +176,50 @@ def readSpectraFITS(filename):
 
     print(f"Header fields: {list(header.keys())}")
 
-    return header, wavelengths, fluxes
+    return time, (ra, dec), wavelengths, fluxes
 
 
 #---------------------------------main----------------------------------------#
 
 
-def main(fits, template, light_ratio):
+def main(fits, template, light_ratio=1, parallel=False):
+
+    # Initialize the template spectra objects
+    # TODO: make this more specific to the template formats
+    template1 = Spectra(*readSpectraFITS(template[0]))
+    template2 = Spectra(*readSpectraFITS(template[1]))
+
+    # Initialize the spectra objects and evaluate the cross correlation
+    # for each. Then, plot the cross correlation.
+    if (parallel):
+        # Obtain the number of cores for multiprocessing
+        num_cores = multiprocessing.cpu_count()
+        pool = multiprocessing.Pool(num_cores)
+
+        # Define arguments extraction and mapping functions from FITS to Specta objects
+        def processFITS(filename):
+            star_spectrum = FStarSpectra(*readSpectraFITS(filename))
+            return star_spectrum.mapTODCOR(template1, template2, light_ratio, plot_block=False)
+
+        # Map the arguments to the multiprocessing pool
+        try:
+            TODCOR_ind_maps = pool.starmap(processFITS, fits)
+        except Exception as err:
+            print(f"Error: {err}")
+
+        # Close the multiprocessing pool
+        pool.close()
+        pool.join()
 
 
+    else:
+        # Iterate through the spectrum files and return the TODCOR cross correlation
+        for spectrum_file in fits:
+            star_spectrum = FStarSpectra(*readSpectraFITS(spectrum_file))
+            star_spectrum.mapTODCOR(template1, template2, light_ratio)
 
     pass
+
 
 if __name__ == "__main__":
 
@@ -196,16 +229,19 @@ if __name__ == "__main__":
 
     # Add arguments
     arg_parser.add_argument("-f", "--fits", type=str, nargs='+', required=True,
-                            help="Spectra FITS file(s) to be read.")
+                            help="F-Class star spectra to be read from FITS file(s).")
     arg_parser.add_argument("-t", "--template", type=str, nargs=2, required=True,
                             help="Template FITS files to be read. Two required.")
     arg_parser.add_argument("-l", "--light_ratio", type=float, default=1,
-                            help="Scaling light ratio of the unshifted to shifted templates.")    
+                            help="Scaling light ratio of the unshifted to shifted templates.")
+    arg_parser.add_argument("-p", "--parallel", action="store_true",
+                            help="Run the program in parallel mode.")
 
     # Parse arguments
     args = arg_parser.parse_args() # cml argument dictionary
     fits = args.fits
     template = args.template
     light_ratio = args.light_ratio
+    parallel = args.parallel
 
-    main(fits, template, light_ratio)
+    main(fits, template, light_ratio, parallel)
