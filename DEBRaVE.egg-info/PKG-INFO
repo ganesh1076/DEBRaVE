@@ -1,0 +1,9 @@
+Metadata-Version: 2.1
+Name: DEBRaVE
+Version: 0.0.1
+Summary: DEBRaVE: Detached Eclipse Binary Radial Velocity Extractor
+Home-page: https://github.com/ganesh1076/DEBRaVE
+Author: 
+Author-email: 
+Keywords: Astronomy Binaries Radial Velocity Spectroscopy TODCOR
+License-File: LICENSE
