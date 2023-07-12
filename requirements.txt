@@ -1,0 +1,6 @@
+astropy
+scipy
+numpy
+pandas
+matplotlib
+multiprocessing
