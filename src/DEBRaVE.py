@@ -34,7 +34,8 @@ class Spectra:
     Attributes:
         time (str): the timestamp of the observation.
         radec (tuple): the RA and DEC of the observed object.
-        spectra_data (numpy array): the wavelength and flux data of the spectra. 2D array of shape (N,2).
+        spectra_data (numpy array): the wavelength and flux data of the spectra.
+            2D array of shape (N,2).
         rms (float): the root mean square of the measured fluxes.
         errors (list): a list of error messages.
 
@@ -74,7 +75,8 @@ class Spectra:
         Returns the matplotlib figure object.
 
         Args:
-            savename (str): the name of the file to save the plot to.
+            savename (str, optional): the name of the file to save the plot to if provided.
+                Defaults to None.
         
         Returns:
             matplotlib figure: the figure object of the plot.
