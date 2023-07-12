@@ -30,6 +30,14 @@ verboseprint = lambda *a, **k: None
 class Spectra:
     """
     This is the superclass for all spectra objects.
+
+    Attributes:
+        time (str): the timestamp of the observation.
+        radec (tuple): the RA and DEC of the observed object.
+        spectra_data (numpy array): the wavelength and flux data of the spectra. 2D array of shape (N,2).
+        rms (float): the root mean square of the measured fluxes.
+        errors (list): a list of error messages.
+
     """
 
     def __init__(self, time, radec, wavelength, fluxes):
@@ -47,6 +55,13 @@ class Spectra:
     def addError(self, error_msg):
         """
         Error handling function for spectra objects.
+
+        Args:
+            error_msg (str): the error message to be added to the error list.
+        
+        Returns:
+            None
+
         """
 
         self.errors.append(error_msg)
@@ -57,6 +72,13 @@ class Spectra:
         """
         Plots the spectra. Saves the plot if a savename is provided.
         Returns the matplotlib figure object.
+
+        Args:
+            savename (str): the name of the file to save the plot to.
+        
+        Returns:
+            matplotlib figure: the figure object of the plot.
+
         """
 
         # Plot the spectra
@@ -76,9 +98,6 @@ class Spectra:
 
         # Return the figure object
         return plt.gcf()
-
-
-
 
 
 class FStarSpectra(Spectra):
