@@ -42,6 +42,21 @@ class Spectra:
     """
 
     def __init__(self, time, radec, wavelength, fluxes):
+        """
+        Asigns the properties of the spectra
+
+        Args:
+            time (str): the timestamp of the observation.
+            radec (tuple): the RA and DEC of the observed object.
+            wavelength (numpy array): the wavelength data of the spectra.
+                1D array of shape (N,1).
+            fluxes (numpy array): the flux data of the spectra.
+                1D array of shape (N,1).
+
+        Returns:
+            None
+        
+        """
 
         # Error collection
         self.errors = []
@@ -108,7 +123,24 @@ class FStarSpectra(Spectra):
     """
 
     def __init__(self, time, radec, wavelength, fluxes):
+        """
+        Asigns the properties of the F star spectra
+
+        Args:
+            time (str): the timestamp of the observation.
+            radec (tuple): the RA and DEC of the observed object.
+            wavelength (numpy array): the wavelength data of the spectra.
+                1D array of shape (N,1).
+            fluxes (numpy array): the flux data of the spectra.
+                1D array of shape (N,1).
+
+        Returns:
+            None
+        
+        """
+
         super().__init__(time, radec, wavelength, fluxes)
+
 
     
     def crossCorrelate(self, template):
@@ -149,9 +181,15 @@ class FStarSpectra(Spectra):
             template1 (FStarSpectra): the primary template spectra.
             template2 (FStarSpectra): the secondary template spectra.
             light_ratio (float, optional): the ratio of the light from the primary to the secondary.
+                Defaults to 1.
+            savename (str): the filename for the heatmap if chosen to be saved.
+                Defaults to not saving.
+            plot_block (bool): choose whether the one heatmap is shown one at a time
+                Defaults to True
         
         Returns:
-            numpy array: the TODCOR index array.
+            ind_arr (numpy array): the TODCOR index array.
+                2D array of shape (M, N)
 
         """
 
@@ -184,7 +222,9 @@ class FStarSpectra(Spectra):
                 Defaults to 1.
         
         Returns:
-            numpy array: the TODCOR index array.
+            cross_corr (numpy array): the TODCOR index array.
+                2D array of shape (M, N)
+
         """
 
         # Obtain individual cross correlation functions
@@ -205,17 +245,18 @@ class FStarSpectra(Spectra):
 #-------------------------------functions-------------------------------------#
 
 def readSpectraFITS(filename):
-    """
-    Reads the header and contents of a spectra file. Returns the header
-    as a dictionary and the body as a numpy object.
+    """ 
+    Reads the header and contents of a spectra file, and extracts the required
+    data for future processing.
 
     Args:
-        filename (str): the name of the file to be read.
-    
-    Returns:
-        dict: the header of the file as a dictionary.
-        numpy.ndarray: the body of the file as a numpy object.
+        filename (str): Filename of the FITS spectra file
 
+    Returns:
+        time (str): the timestamp of the observation
+        radec (tuple): the RA and DEC of the observed object
+        wavelength (arr): the wavelength data of the spectra
+        fluxes (arr): the flux data of the spectra
     """
     verboseprint(f"Unpacking {filename}...")
 
@@ -241,6 +282,21 @@ def readSpectraFITS(filename):
 
 
 def main(fits_files, templates, light_ratio=1, parallel=False):
+    """ 
+    Perform the TODCOR prodedure on the spectral data
+
+    Args:
+        fits_files (lst): list of FITS filenames of the Spectral Data
+        templates (lst): list of the two FITS filename of the template spectral data
+        light_ratio (flt, optional): the ratio of the light from the primary to the secondary
+            Defaults to 1
+        parallel (bool, optional): indicate whether the primary and secondary spectra are parallel to each other
+            Defaults to False
+
+    Returns:
+        None 
+
+    """
 
     # Initialize the template spectra objects
     # TODO: make this more specific to the template formats
