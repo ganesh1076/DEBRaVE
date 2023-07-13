@@ -13,6 +13,7 @@ import os, sys
 import astropy
 import scipy
 import argparse
+import imageio
 import multiprocessing
 import numpy as np
 import pandas as pd
@@ -181,6 +182,35 @@ def readSpectraFITS(filename):
 
     return time, (ra, dec), wavelengths, fluxes
 
+
+def animatePlotsAsGIF(figure_objects,savepath,dpi=100,frames_per_second=3):
+    """
+    Create and save a gif of a list of matplotlib figure objects.
+
+    Args:
+        figure_objects (matplotlib figures): list of matplotlib figure objects
+        savepath (str): path to save the gif
+        dpi (int/float): resolution of the gif
+    
+    Returns:
+        None
+    """
+
+    # Save the figure objects as generic png files
+    for i, fig in enumerate(figure_objects):
+        fig.savefig(f"temp{i}.png", dpi=dpi)
+    
+    # Create the gif
+    with imageio.get_writer(savepath, mode='I') as writer:
+        for i in range(len(figure_objects)):
+            image = imageio.imread(f"temp{i}.png")
+            writer.append_data(image)
+            os.remove(f"temp{i}.png")
+
+    
+
+
+    
 
 #---------------------------------main----------------------------------------#
 
