@@ -54,7 +54,7 @@ class Spectra:
         print(error_msg)
 
 
-    def plotSpectra(self, savename=None):
+    def plotSpectra(self, redshift=None, savename=None):
         """
         Plots the spectra. Saves the plot if a savename is provided.
         Returns the matplotlib figure object.
@@ -71,12 +71,16 @@ class Spectra:
         plt.ylabel("Flux (arbitrary units)")
         plt.grid(True)
 
+        # State the redshift if provided
+        if (redshift is not None):
+            plt.text(0.5, 0.9, f"z = {redshift:.4f}", transform=plt.gca().transAxes)
+
         # Save the plot if a savename is provided
         if (savename is not None):
             plt.savefig(savename)
 
         # Return the figure object
-        return plt.gcf()
+        return plt.gcf(), plt.gca()
 
 
 
@@ -134,7 +138,7 @@ class FStarSpectra(Spectra):
             plt.savefig(savename)
 
         plt.show(block=plot_block)
-        return ind_arr
+        return plt.gcf(), plt.gca(), ind_arr
     
 
     def TODCOR(self, template1, template2, light_ratio=1):
@@ -166,6 +170,7 @@ def readSpectraFITS(filename):
     """
     verboseprint(f"Unpacking {filename}...")
 
+    # Open the file using the astropy fits module
     with fits.open(filename) as hdul:
         # Read the header
         header = hdul[0].header
@@ -214,10 +219,6 @@ def animatePlotsAsGIF(figure_objects,savepath,dpi=100,frame_pause=10):
             # Delete the image
             os.remove(f"temp{i}.png")
 
-    
-
-
-    
 
 #---------------------------------main----------------------------------------#
 
