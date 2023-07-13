@@ -159,9 +159,18 @@ class FStarSpectra(Spectra):
 #-------------------------------functions-------------------------------------#
 
 def readSpectraFITS(filename):
-    """
-    Reads the header and contents of a spectra file. Returns the header
-    as a dictionary and the body as a numpy object.
+    """ Reads the header and contents of a spectra file, and extracts the required
+        data for future processing.
+
+    Args:
+        filename (str): Filename of the FITS spectra file
+
+    Returns:
+        time (flt): Spectra time of measurement
+        (ra, dec) (tuple):  Right ascension and declination of the spectra
+        wavelengths (arr):  Wavelengths measured in the spectral data
+        fluxes (arr): Fluxes measured for each wavelength measured
+
     """
     verboseprint(f"Unpacking {filename}...")
 
@@ -186,6 +195,20 @@ def readSpectraFITS(filename):
 
 
 def main(fits_files, templates, light_ratio=1, parallel=False):
+    """ Main body that will perform the TODCOR prodedure on the spectral data
+
+    Args:
+        fits_files (list): List of FITS filenames of the Spectral Data
+        templates (list): List of the two FITS filename of the template spectral data
+        light_ratio (flt, optional): The ratio between the two template spectra
+            Defaults to 1
+        parallel (bool, optional): Indicate whether the
+            Defaults to False
+
+    Returns:
+        none 
+
+    """
 
     # Initialize the template spectra objects
     # TODO: make this more specific to the template formats
