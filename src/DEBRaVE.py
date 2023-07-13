@@ -115,6 +115,13 @@ class FStarSpectra(Spectra):
         """
         Cross-correlates the spectra with a template spectra.
         *Note: the wavelengths in the two spectra must be the same.
+
+        Args:
+            template (FStarSpectra): the template spectra to cross-correlate with.
+
+        Returns:
+            numpy array: the cross-correlation function.
+
         """
 
         if len(self.spectra_data) != len(template.spectra_data):
@@ -137,6 +144,15 @@ class FStarSpectra(Spectra):
     def mapTODCOR(self, template1, template2, light_ratio=1, savename=None, plot_block=True):
         """
         Make a heatmap of the TODCOR cross correlation function.
+
+        Args:
+            template1 (FStarSpectra): the primary template spectra.
+            template2 (FStarSpectra): the secondary template spectra.
+            light_ratio (float, optional): the ratio of the light from the primary to the secondary.
+        
+        Returns:
+            numpy array: the TODCOR index array.
+
         """
 
         # Obtain TODCOR index array
@@ -160,6 +176,15 @@ class FStarSpectra(Spectra):
     def TODCOR(self, template1, template2, light_ratio=1):
         """
         Performs the TODCOR algorithm on the spectra.
+        
+        Args:
+            template1 (FStarSpectra): the primary template spectra.
+            template2 (FStarSpectra): the secondary template spectra.
+            light_ratio (float, optional): the ratio of the light from the primary to the secondary.
+                Defaults to 1.
+        
+        Returns:
+            numpy array: the TODCOR index array.
         """
 
         # Obtain individual cross correlation functions
@@ -183,6 +208,14 @@ def readSpectraFITS(filename):
     """
     Reads the header and contents of a spectra file. Returns the header
     as a dictionary and the body as a numpy object.
+
+    Args:
+        filename (str): the name of the file to be read.
+    
+    Returns:
+        dict: the header of the file as a dictionary.
+        numpy.ndarray: the body of the file as a numpy object.
+
     """
     verboseprint(f"Unpacking {filename}...")
 
@@ -201,6 +234,7 @@ def readSpectraFITS(filename):
     verboseprint(f"Header fields: {list(header.keys())}")
 
     return time, (ra, dec), wavelengths, fluxes
+
 
 
 #---------------------------------main----------------------------------------#
