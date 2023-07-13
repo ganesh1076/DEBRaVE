@@ -18,7 +18,7 @@ def get_requires():
 
 setup(
     name="DEBRaVE",
-    version=get_property("__version__", "orbitize"),
+    version=get_property("__version__", "DEBRaVE"),
     description="DEBRaVE: Detached Eclipse Binary Radial Velocity Extractor",
     url="https://github.com/ganesh1076/DEBRaVE",
     author="",
