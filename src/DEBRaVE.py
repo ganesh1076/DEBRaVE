@@ -15,7 +15,7 @@ import scipy
 import argparse
 import imageio
 import multiprocessing
-import specutils
+import specutils as sp
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
