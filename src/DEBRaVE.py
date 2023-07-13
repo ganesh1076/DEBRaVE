@@ -15,6 +15,7 @@ import scipy
 import argparse
 import imageio
 import multiprocessing
+import specutils
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -163,27 +164,46 @@ class FStarSpectra(Spectra):
 
 #-------------------------------functions-------------------------------------#
 
-def readSpectraFITS(filename):
+def readSpectraFITS(filename, IRAF=False):
     """
-    Reads the header and contents of a spectra file. Returns the header
-    as a dictionary and the body as a numpy object.
+    Reads the header and contents of a spectra file. Returns the relevant header
+    information as a dictionary and the body as a numpy object.
     """
     verboseprint(f"Unpacking {filename}...")
 
     # Open the file using the astropy fits module
     with fits.open(filename) as hdul:
-        # Read the header
-        header = hdul[0].header
-        time = header['DATE-OBS']
-        ra   = header['RA']
-        dec  = header['DEC']
+        # If this is a template spectrum
+        if (len(hdul) == 1) or (IRAF):
+            # Read the header
+            header = hdul[0].header
+            time = header['DATE-OBS']
+            ra   = header['RA']
+            dec  = header['DEC']
 
-        # Read the body
-        body = hdul[1].data[0]
-        wavelengths = body[0]
-        fluxes = body[1]
+            # Read the body
+            body = sp.Spectrum1D.read(filename)
+            wavelengths = body.spectral_axis
+            fluxes = body.flux
 
-    verboseprint(f"Header fields: {list(header.keys())}")
+        # If this is a spectral object
+        elif len(hdul) == 2:
+
+            # Read the header
+            header = hdul[0].header
+            time = header['DATE-OBS']
+            ra   = header['RA']
+            dec  = header['DEC']
+
+            # Read the body
+            body = hdul[1].data[0]
+            wavelengths = body[0]
+            fluxes = body[1]
+
+        else:
+            raise ValueError("Unfamiliar ")
+
+        verboseprint(f"Header fields: {list(header.keys())}")
 
     return time, (ra, dec), wavelengths, fluxes
 
