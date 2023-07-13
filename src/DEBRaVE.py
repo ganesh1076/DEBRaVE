@@ -177,10 +177,22 @@ class FStarSpectra(Spectra):
 
 #-------------------------------functions-------------------------------------#
 
+
 def readSpectraFITS(filename, IRAF=False):
-    """
-    Reads the header and contents of a spectra file. Returns the relevant header
-    information as a dictionary and the body as a numpy object.
+
+    """ Reads the header and contents of a spectra file, and extracts the required
+        data for future processing.
+
+    Args:
+        filename (str): Filename of the FITS spectra file
+        IRAF (bool):    If True, the file is assumed to be an IRAF template spectra
+
+    Returns:
+        time (flt): Spectra time of measurement
+        (ra, dec) (tuple):  Right ascension and declination of the spectra
+        wavelengths (arr):  Wavelengths measured in the spectral data
+        fluxes (arr): Fluxes measured for each wavelength measured
+
     """
     verboseprint(f"Unpacking {filename}...")
 
@@ -214,7 +226,7 @@ def readSpectraFITS(filename, IRAF=False):
             fluxes = body[1]
 
         else:
-            raise ValueError("Unfamiliar ")
+            raise ValueError("Unfamiliar FITS file structure!")
 
         verboseprint(f"Header fields: {list(header.keys())}")
 
@@ -257,6 +269,20 @@ def animatePlotsAsGIF(figure_objects,savepath,dpi=100,frame_pause=10):
 
 
 def main(fits_files, templates, light_ratio=1, parallel=False):
+    """ Main body that will perform the TODCOR prodedure on the spectral data
+
+    Args:
+        fits_files (list): List of FITS filenames of the Spectral Data
+        templates (list): List of the two FITS filename of the template spectral data
+        light_ratio (flt, optional): The ratio between the two template spectra
+            Defaults to 1
+        parallel (bool, optional): Indicate whether the
+            Defaults to False
+
+    Returns:
+        none 
+
+    """
 
     # Initialize the template spectra objects
     # TODO: make this more specific to the template formats
