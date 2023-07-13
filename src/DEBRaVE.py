@@ -92,6 +92,10 @@ class FStarSpectra(Spectra):
     This is the class for F-star spectra.
     """
 
+    # Define the wavelength range for F-star spectra cross-correlation
+    min_wavelength = 6034  # Angstroms
+    max_wavelength = 6666  # Angstroms
+
     def __init__(self, time, radec, wavelength, fluxes):
         super().__init__(time, radec, wavelength, fluxes)
 
@@ -100,8 +104,9 @@ class FStarSpectra(Spectra):
         """
         Cross-correlates the spectra with a template spectra.
         *Note: the wavelengths in the two spectra must be the same.
-        """
+        """        
 
+        # Input sanitization
         if len(self.spectra_data) != len(template.spectra_data):
             self.addError("Primary and secondary spectra are of different lengths!")
             return
@@ -109,13 +114,21 @@ class FStarSpectra(Spectra):
             self.addError("Primary and secondary spectra have different wavelengths!")
             return
 
+        # Wavelength range check
+        self_index_range = [(self.spectra_data[:,0] > FStarSpectra.min_wavelength) & (self.spectra_data[:,0] < FStarSpectra.max_wavelength)]
+        template_index_range = [(template.spectra_data[:,0] > FStarSpectra.min_wavelength) & (template.spectra_data[:,0] < FStarSpectra.max_wavelength)]
+
+        # Define cropped spectral data
+        self_spectra_data = self.spectra_data[self_index_range]
+        template_spectra_data = template.spectra_data[template_index_range]
+
         # Define the cross correlation variables
-        N = len(self.spectra_data)
+        N = len(self_spectra_data)
         sig_g = self.rms
         sig_t = template.rms
 
         # Calculate the cross correlation
-        cross_corr = (N*sig_g*sig_t)**-1 * np.convolve(self.spectra_data[:,1], template.spectra_data[:,1])
+        cross_corr = (N*sig_g*sig_t)**-1 * np.convolve(self_spectra_data[:,1], template_spectra_data[:,1])
         return cross_corr
 
 
