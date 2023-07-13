@@ -183,7 +183,7 @@ def readSpectraFITS(filename):
     return time, (ra, dec), wavelengths, fluxes
 
 
-def animatePlotsAsGIF(figure_objects,savepath,dpi=100,frames_per_second=3):
+def animatePlotsAsGIF(figure_objects,savepath,dpi=100,frame_pause=10):
     """
     Create and save a gif of a list of matplotlib figure objects.
 
@@ -191,6 +191,7 @@ def animatePlotsAsGIF(figure_objects,savepath,dpi=100,frames_per_second=3):
         figure_objects (matplotlib figures): list of matplotlib figure objects
         savepath (str): path to save the gif
         dpi (int/float): resolution of the gif
+        frame_pause (int): frames between each figure
     
     Returns:
         None
@@ -203,8 +204,14 @@ def animatePlotsAsGIF(figure_objects,savepath,dpi=100,frames_per_second=3):
     # Create the gif
     with imageio.get_writer(savepath, mode='I') as writer:
         for i in range(len(figure_objects)):
+            # Read the image
             image = imageio.imread(f"temp{i}.png")
-            writer.append_data(image)
+
+            # Write the image to the gif n times
+            for _ in range(frame_pause):
+                writer.append_data(image)
+
+            # Delete the image
             os.remove(f"temp{i}.png")
 
     
