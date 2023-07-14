@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DEBRaVE Functions &mdash; DEBRaVE 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to DEBRaVE’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            DEBRaVE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">DEBRaVE Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#DEBRaVE.FStarSpectra"><code class="docutils literal notranslate"><span class="pre">FStarSpectra</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#DEBRaVE.FStarSpectra.TODCOR"><code class="docutils literal notranslate"><span class="pre">FStarSpectra.TODCOR()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DEBRaVE.FStarSpectra.crossCorrelate"><code class="docutils literal notranslate"><span class="pre">FStarSpectra.crossCorrelate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DEBRaVE.FStarSpectra.mapTODCOR"><code class="docutils literal notranslate"><span class="pre">FStarSpectra.mapTODCOR()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#DEBRaVE.Spectra"><code class="docutils literal notranslate"><span class="pre">Spectra</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#DEBRaVE.Spectra.time"><code class="docutils literal notranslate"><span class="pre">Spectra.time</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DEBRaVE.Spectra.radec"><code class="docutils literal notranslate"><span class="pre">Spectra.radec</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DEBRaVE.Spectra.spectra_data"><code class="docutils literal notranslate"><span class="pre">Spectra.spectra_data</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DEBRaVE.Spectra.rms"><code class="docutils literal notranslate"><span class="pre">Spectra.rms</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DEBRaVE.Spectra.errors"><code class="docutils literal notranslate"><span class="pre">Spectra.errors</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DEBRaVE.Spectra.addError"><code class="docutils literal notranslate"><span class="pre">Spectra.addError()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DEBRaVE.Spectra.plotSpectra"><code class="docutils literal notranslate"><span class="pre">Spectra.plotSpectra()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#DEBRaVE.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#DEBRaVE.readSpectraFITS"><code class="docutils literal notranslate"><span class="pre">readSpectraFITS()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">DEBRaVE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">DEBRaVE Functions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/DEBRaVE.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="debrave-functions">
+<span id="debrave"></span><h1>DEBRaVE Functions<a class="headerlink" href="#debrave-functions" title="Permalink to this heading"></a></h1>
+<p>Functions in DEBRaVE package.</p>
+<span class="target" id="module-DEBRaVE"></span><p>Filename:   DEBRaVE.py
+Author(s):  Peter Quigley, David Dougan, Ganesh Pawar
+Contact:    <a class="reference external" href="mailto:pquigley&#37;&#52;&#48;uwo&#46;ca">pquigley<span>&#64;</span>uwo<span>&#46;</span>ca</a>
+Created:    2023-07-10
+Updated:    2023-07-10</p>
+<p>Usage: python DEBRaVE.py</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="DEBRaVE.FStarSpectra">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DEBRaVE.</span></span><span class="sig-name descname"><span class="pre">FStarSpectra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wavelength</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fluxes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DEBRaVE.FStarSpectra" title="Permalink to this definition"></a></dt>
+<dd><p>This is the class for F-star spectra.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="DEBRaVE.FStarSpectra.TODCOR">
+<span class="sig-name descname"><span class="pre">TODCOR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">light_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DEBRaVE.FStarSpectra.TODCOR" title="Permalink to this definition"></a></dt>
+<dd><p>Performs the TODCOR algorithm on the spectra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>template1</strong> (<a class="reference internal" href="#DEBRaVE.FStarSpectra" title="DEBRaVE.FStarSpectra"><em>FStarSpectra</em></a>) – the primary template spectra.</p></li>
+<li><p><strong>template2</strong> (<a class="reference internal" href="#DEBRaVE.FStarSpectra" title="DEBRaVE.FStarSpectra"><em>FStarSpectra</em></a>) – the secondary template spectra.</p></li>
+<li><p><strong>light_ratio</strong> (<em>float</em><em>, </em><em>optional</em>) – the ratio of the light from the primary to the secondary.
+Defaults to 1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>the TODCOR index array.</dt><dd><p>2D array of shape (M, N)</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>cross_corr (numpy array)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DEBRaVE.FStarSpectra.crossCorrelate">
+<span class="sig-name descname"><span class="pre">crossCorrelate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DEBRaVE.FStarSpectra.crossCorrelate" title="Permalink to this definition"></a></dt>
+<dd><p>Cross-correlates the spectra with a template spectra.
+<a href="#id1"><span class="problematic" id="id2">*</span></a>Note: the wavelengths in the two spectra must be the same.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>template</strong> (<a class="reference internal" href="#DEBRaVE.FStarSpectra" title="DEBRaVE.FStarSpectra"><em>FStarSpectra</em></a>) – the template spectra to cross-correlate with.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the cross-correlation function.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DEBRaVE.FStarSpectra.mapTODCOR">
+<span class="sig-name descname"><span class="pre">mapTODCOR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">light_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_block</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DEBRaVE.FStarSpectra.mapTODCOR" title="Permalink to this definition"></a></dt>
+<dd><p>Make a heatmap of the TODCOR cross correlation function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>template1</strong> (<a class="reference internal" href="#DEBRaVE.FStarSpectra" title="DEBRaVE.FStarSpectra"><em>FStarSpectra</em></a>) – the primary template spectra.</p></li>
+<li><p><strong>template2</strong> (<a class="reference internal" href="#DEBRaVE.FStarSpectra" title="DEBRaVE.FStarSpectra"><em>FStarSpectra</em></a>) – the secondary template spectra.</p></li>
+<li><p><strong>light_ratio</strong> (<em>float</em><em>, </em><em>optional</em>) – the ratio of the light from the primary to the secondary.
+Defaults to 1.</p></li>
+<li><p><strong>savename</strong> (<em>str</em>) – the filename for the heatmap if chosen to be saved.
+Defaults to not saving.</p></li>
+<li><p><strong>plot_block</strong> (<em>bool</em>) – choose whether the one heatmap is shown one at a time
+Defaults to True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>the TODCOR index array.</dt><dd><p>2D array of shape (M, N)</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ind_arr (numpy array)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="DEBRaVE.Spectra">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DEBRaVE.</span></span><span class="sig-name descname"><span class="pre">Spectra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wavelength</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fluxes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DEBRaVE.Spectra" title="Permalink to this definition"></a></dt>
+<dd><p>This is the superclass for all spectra objects.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DEBRaVE.Spectra.time">
+<span class="sig-name descname"><span class="pre">time</span></span><a class="headerlink" href="#DEBRaVE.Spectra.time" title="Permalink to this definition"></a></dt>
+<dd><p>the timestamp of the observation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DEBRaVE.Spectra.radec">
+<span class="sig-name descname"><span class="pre">radec</span></span><a class="headerlink" href="#DEBRaVE.Spectra.radec" title="Permalink to this definition"></a></dt>
+<dd><p>the RA and DEC of the observed object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DEBRaVE.Spectra.spectra_data">
+<span class="sig-name descname"><span class="pre">spectra_data</span></span><a class="headerlink" href="#DEBRaVE.Spectra.spectra_data" title="Permalink to this definition"></a></dt>
+<dd><p>the wavelength and flux data of the spectra.
+2D array of shape (N,2).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DEBRaVE.Spectra.rms">
+<span class="sig-name descname"><span class="pre">rms</span></span><a class="headerlink" href="#DEBRaVE.Spectra.rms" title="Permalink to this definition"></a></dt>
+<dd><p>the root mean square of the measured fluxes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DEBRaVE.Spectra.errors">
+<span class="sig-name descname"><span class="pre">errors</span></span><a class="headerlink" href="#DEBRaVE.Spectra.errors" title="Permalink to this definition"></a></dt>
+<dd><p>a list of error messages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DEBRaVE.Spectra.addError">
+<span class="sig-name descname"><span class="pre">addError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error_msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DEBRaVE.Spectra.addError" title="Permalink to this definition"></a></dt>
+<dd><p>Error handling function for spectra objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>error_msg</strong> (<em>str</em>) – the error message to be added to the error list.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DEBRaVE.Spectra.plotSpectra">
+<span class="sig-name descname"><span class="pre">plotSpectra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">savename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DEBRaVE.Spectra.plotSpectra" title="Permalink to this definition"></a></dt>
+<dd><p>Plots the spectra. Saves the plot if a savename is provided.
+Returns the matplotlib figure object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>savename</strong> (<em>str</em><em>, </em><em>optional</em>) – the name of the file to save the plot to if provided.
+Defaults to None.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the figure object of the plot.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>matplotlib figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="DEBRaVE.main">
+<span class="sig-prename descclassname"><span class="pre">DEBRaVE.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fits_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">templates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">light_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DEBRaVE.main" title="Permalink to this definition"></a></dt>
+<dd><p>Perform the TODCOR prodedure on the spectral data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fits_files</strong> (<em>lst</em>) – list of FITS filenames of the Spectral Data</p></li>
+<li><p><strong>templates</strong> (<em>lst</em>) – list of the two FITS filename of the template spectral data</p></li>
+<li><p><strong>light_ratio</strong> (<em>flt</em><em>, </em><em>optional</em>) – the ratio of the light from the primary to the secondary
+Defaults to 1</p></li>
+<li><p><strong>parallel</strong> (<em>bool</em><em>, </em><em>optional</em>) – indicate whether the primary and secondary spectra are parallel to each other
+Defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="DEBRaVE.readSpectraFITS">
+<span class="sig-prename descclassname"><span class="pre">DEBRaVE.</span></span><span class="sig-name descname"><span class="pre">readSpectraFITS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#DEBRaVE.readSpectraFITS" title="Permalink to this definition"></a></dt>
+<dd><p>Reads the header and contents of a spectra file, and extracts the required
+data for future processing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – Filename of the FITS spectra file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the timestamp of the observation
+radec (tuple): the RA and DEC of the observed object
+wavelength (arr): the wavelength data of the spectra
+fluxes (arr): the flux data of the spectra</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>time (str)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to DEBRaVE’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Peter Quigley, David Dougan and Ganesh Pawar.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
