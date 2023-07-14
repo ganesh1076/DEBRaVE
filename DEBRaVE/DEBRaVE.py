@@ -32,9 +32,33 @@ verboseprint = lambda *a, **k: None
 class Spectra:
     """
     This is the superclass for all spectra objects.
+
+    Attributes:
+        time (str): the timestamp of the observation.
+        radec (tuple): the RA and DEC of the observed object.
+        spectra_data (numpy array): the wavelength and flux data of the spectra.
+            2D array of shape (N,2).
+        rms (float): the root mean square of the measured fluxes.
+        errors (list): a list of error messages.
+
     """
 
     def __init__(self, time, radec, wavelength, fluxes):
+        """
+        Asigns the properties of the spectra
+
+        Args:
+            time (str): the timestamp of the observation.
+            radec (tuple): the RA and DEC of the observed object.
+            wavelength (numpy array): the wavelength data of the spectra.
+                1D array of shape (N,1).
+            fluxes (numpy array): the flux data of the spectra.
+                1D array of shape (N,1).
+
+        Returns:
+            None
+        
+        """
 
         # Error collection
         self.errors = []
@@ -49,6 +73,13 @@ class Spectra:
     def addError(self, error_msg):
         """
         Error handling function for spectra objects.
+
+        Args:
+            error_msg (str): the error message to be added to the error list.
+        
+        Returns:
+            None
+
         """
 
         self.errors.append(error_msg)
@@ -59,6 +90,14 @@ class Spectra:
         """
         Plots the spectra. Saves the plot if a savename is provided.
         Returns the matplotlib figure object.
+
+        Args:
+            savename (str, optional): the name of the file to save the plot to if provided.
+                Defaults to None.
+        
+        Returns:
+            matplotlib figure: the figure object of the plot.
+
         """
 
         # Plot the spectra
@@ -84,9 +123,6 @@ class Spectra:
         return plt.gcf(), plt.gca()
 
 
-
-
-
 class FStarSpectra(Spectra):
     """
     This is the class for F-star spectra.
@@ -97,14 +133,39 @@ class FStarSpectra(Spectra):
     max_wavelength = 6666  # Angstroms
 
     def __init__(self, time, radec, wavelength, fluxes):
+        """
+        Asigns the properties of the F star spectra
+
+        Args:
+            time (str): the timestamp of the observation.
+            radec (tuple): the RA and DEC of the observed object.
+            wavelength (numpy array): the wavelength data of the spectra.
+                1D array of shape (N,1).
+            fluxes (numpy array): the flux data of the spectra.
+                1D array of shape (N,1).
+
+        Returns:
+            None
+        
+        """
+
         super().__init__(time, radec, wavelength, fluxes)
+
 
     
     def crossCorrelate(self, template):
         """
         Cross-correlates the spectra with a template spectra.
         *Note: the wavelengths in the two spectra must be the same.
-        """        
+
+
+        Args:
+            template (FStarSpectra): the template spectra to cross-correlate with.
+
+        Returns:
+            numpy array: the cross-correlation function.
+
+        """
 
         # Input sanitization
         if len(self.spectra_data) != len(template.spectra_data):
@@ -135,6 +196,21 @@ class FStarSpectra(Spectra):
     def mapTODCOR(self, template1, template2, light_ratio=1, savename=None, plot_block=True):
         """
         Make a heatmap of the TODCOR cross correlation function.
+
+        Args:
+            template1 (FStarSpectra): the primary template spectra.
+            template2 (FStarSpectra): the secondary template spectra.
+            light_ratio (float, optional): the ratio of the light from the primary to the secondary.
+                Defaults to 1.
+            savename (str): the filename for the heatmap if chosen to be saved.
+                Defaults to not saving.
+            plot_block (bool): choose whether the one heatmap is shown one at a time
+                Defaults to True
+        
+        Returns:
+            ind_arr (numpy array): the TODCOR index array.
+                2D array of shape (M, N)
+
         """
 
         # Obtain TODCOR index array
@@ -158,6 +234,17 @@ class FStarSpectra(Spectra):
     def TODCOR(self, template1, template2, light_ratio=1):
         """
         Performs the TODCOR algorithm on the spectra.
+        
+        Args:
+            template1 (FStarSpectra): the primary template spectra.
+            template2 (FStarSpectra): the secondary template spectra.
+            light_ratio (float, optional): the ratio of the light from the primary to the secondary.
+                Defaults to 1.
+        
+        Returns:
+            cross_corr (numpy array): the TODCOR index array.
+                2D array of shape (M, N)
+
         """
 
         # Obtain individual cross correlation functions
@@ -177,22 +264,20 @@ class FStarSpectra(Spectra):
 
 #-------------------------------functions-------------------------------------#
 
-
-def readSpectraFITS(filename, IRAF=False):
-
-    """ Reads the header and contents of a spectra file, and extracts the required
-        data for future processing.
+def readSpectraFITS(filename):
+    """ 
+    Reads the header and contents of a spectra file, and extracts the required
+    data for future processing.
 
     Args:
         filename (str): Filename of the FITS spectra file
         IRAF (bool):    If True, the file is assumed to be an IRAF template spectra
 
     Returns:
-        time (flt): Spectra time of measurement
-        (ra, dec) (tuple):  Right ascension and declination of the spectra
-        wavelengths (arr):  Wavelengths measured in the spectral data
-        fluxes (arr): Fluxes measured for each wavelength measured
-
+        time (str): the timestamp of the observation
+        radec (tuple): the RA and DEC of the observed object
+        wavelength (arr): the wavelength data of the spectra
+        fluxes (arr): the flux data of the spectra
     """
     verboseprint(f"Unpacking {filename}...")
 
@@ -269,18 +354,19 @@ def animatePlotsAsGIF(figure_objects,savepath,dpi=100,frame_pause=10):
 
 
 def main(fits_files, templates, light_ratio=1, parallel=False):
-    """ Main body that will perform the TODCOR prodedure on the spectral data
+    """ 
+    Perform the TODCOR prodedure on the spectral data
 
     Args:
-        fits_files (list): List of FITS filenames of the Spectral Data
-        templates (list): List of the two FITS filename of the template spectral data
-        light_ratio (flt, optional): The ratio between the two template spectra
+        fits_files (lst): list of FITS filenames of the Spectral Data
+        templates (lst): list of the two FITS filename of the template spectral data
+        light_ratio (flt, optional): the ratio of the light from the primary to the secondary
             Defaults to 1
-        parallel (bool, optional): Indicate whether the
+        parallel (bool, optional): indicate whether the primary and secondary spectra are parallel to each other
             Defaults to False
 
     Returns:
-        none 
+        None 
 
     """
 

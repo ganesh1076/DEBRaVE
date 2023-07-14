@@ -7,7 +7,7 @@
 # ignore compiled files
 **/build
 **/dist
-**/docs
+**/*.egg-info
 *.so
 *.pyd
 
