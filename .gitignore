@@ -15,5 +15,5 @@
 **/logs
 
 # ignore jupyter notebook used for testing
-*.ipynb
+**/.ipynb
 **/.ipynb_checkpoints
