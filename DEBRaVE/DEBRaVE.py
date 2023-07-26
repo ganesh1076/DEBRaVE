@@ -284,7 +284,7 @@ def readSpectraFITS(filename):
     # Open the file using the astropy fits module
     with fits.open(filename) as hdul:
         # If this is a template spectrum
-        if (len(hdul) == 1) or (IRAF):
+        if (len(hdul) == 1):
             # Read the header
             header = hdul[0].header
             time = header['DATE-OBS']
