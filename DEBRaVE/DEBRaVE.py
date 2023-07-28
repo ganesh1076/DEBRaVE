@@ -129,8 +129,8 @@ class FStarSpectra(Spectra):
     """
 
     # Define the wavelength range for F-star spectra cross-correlation
-    min_wavelength = 6034  # Angstroms
-    max_wavelength = 6666  # Angstroms
+    min_wavelength = 6034.0  # Angstroms
+    max_wavelength = 6666.0  # Angstroms
 
     def __init__(self, time, radec, wavelength, fluxes):
         """
